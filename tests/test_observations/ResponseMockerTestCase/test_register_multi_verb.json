@@ -1,0 +1,14 @@
+[
+{
+    "multi": [
+        {
+            "request_verbs": [
+                "bang", 
+                "boom"
+            ], 
+            "status_code": "999", 
+            "url": "1"
+        }
+    ]
+}
+]

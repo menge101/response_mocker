@@ -1,0 +1,20 @@
+[
+{
+    "sameVerbDiffUrl": [
+        {
+            "request_verbs": [
+                "bang"
+            ], 
+            "status_code": "999", 
+            "url": "hi.bob"
+        }, 
+        {
+            "request_verbs": [
+                "bang"
+            ], 
+            "status_code": "999", 
+            "url": "hi.bill"
+        }
+    ]
+}
+]

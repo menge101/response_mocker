@@ -1,0 +1,13 @@
+[
+{
+    "register": [
+        {
+            "request_verbs": [
+                "bang"
+            ], 
+            "status_code": "999", 
+            "url": "1"
+        }
+    ]
+}
+]

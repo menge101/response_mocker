@@ -1,0 +1,11 @@
+[
+{
+    "get_json": "Success."
+},
+{
+    "get_url": "https://oranges.org/squeeze_orange"
+},
+{
+    "get_status": 201
+}
+]

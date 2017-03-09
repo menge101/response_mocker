@@ -1,0 +1,11 @@
+[
+{
+    "get_json": "Sorry, tickets are sold out."
+},
+{
+    "get_url": "https://giant.balloon.com/rides?time=now"
+},
+{
+    "get_status": 200
+}
+]

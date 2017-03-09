@@ -1,0 +1,20 @@
+[
+{
+    "multiURL": [
+        {
+            "request_verbs": [
+                "bang"
+            ], 
+            "status_code": "999", 
+            "url": "1"
+        }, 
+        {
+            "request_verbs": [
+                "flip"
+            ], 
+            "status_code": "666", 
+            "url": "2"
+        }
+    ]
+}
+]
