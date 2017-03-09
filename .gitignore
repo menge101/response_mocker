@@ -2,3 +2,7 @@
 *_bootstrapper.sh
 .idea/*
 /*venv/
+/*venv3/
+response_mocker.egg-info/
+dist/
+build/
