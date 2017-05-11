@@ -99,13 +99,15 @@ class ResponseMockerTestCase(unittest.TestCase):
         url = 'https://giant.balloon.com/rides?time=now'
         self.mocker.register_response(url=url, status_code=500, request_verbs=['get'])
         response = self.mocker.get(url)
-        self.assertRaises(HTTPError, response.raise_for_status)
+        with self.assertRaises(HTTPError):
+            response.raise_for_status()
 
     def test_raise_404_for_status(self):
         url = 'https://giant.balloon.com/rides?time=now'
         self.mocker.register_response(url=url, status_code=404, request_verbs=['get'])
         response = self.mocker.get(url)
-        self.assertRaises(HTTPError, response.raise_for_status)
+        with self.assertRaises(HTTPError):
+            response.raise_for_status()
 
     def test_get(self):
         bond.start_test(self)
@@ -148,3 +150,15 @@ class ResponseMockerTestCase(unittest.TestCase):
         self.assertNotEqual(first, second)
         self.assertEqual(original, second)
         bond.spy(result=second)
+
+    def test_http_error_attributes(self):
+        url = 'https://giant.balloon.com/rides?time=now'
+        self.mocker.register_response(url=url, status_code=500, request_verbs=['get'])
+        response = self.mocker.get(url)
+        try:
+            response.raise_for_status()
+        except HTTPError as httpe:
+            exception_dict = httpe.__dict__
+            self.assertIn('message', exception_dict)
+            self.assertIn('request', exception_dict)
+            self.assertIn('response', exception_dict)

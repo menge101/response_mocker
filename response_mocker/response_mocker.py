@@ -26,9 +26,10 @@ class MockedResponse(object):
     def raise_for_status(self):
         if self.status_code not in SUCCESS_CODES[self.request.method]:
             if self.status_code is 404:
-                raise HTTPError(str(self.status_code) + ' Client Error: Not Found for url: ' + self.url)
+                message = "{} Client Error: Not Found for url: {}".format(self.status_code, self.url)
             else:
-                raise HTTPError(str(self.status_code) + ' Client Error: regarding url: ' + self.url)
+                message = "{} Client Error: regarding url: {}".format(self.status_code, self.url)
+            raise HTTPError(message, self.request, self)
 
 
 class MockedRequest(object):
@@ -157,7 +158,11 @@ class AmbiguousURLMatch(Exception):
 
 
 class HTTPError(Exception):
-    pass
+    def __init__(self, msg, req, resp, *args, **kwargs):
+        self.message = msg
+        self.request = req
+        self.response = resp
+        super(HTTPError, self).__init__(args, kwargs)
 
 
 class UnregisteredURL(Exception):
