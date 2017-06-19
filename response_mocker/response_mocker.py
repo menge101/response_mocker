@@ -1,4 +1,5 @@
 from copy import deepcopy
+from queue import Queue, Full
 
 SUCCESS_CODES = {'get': [200, 204], 'post': [200, 201]}
 
@@ -49,8 +50,9 @@ class ResponseMocker(object):
 
     While post functionality is available it is not as robustly developed as the get functionality.
     """
-    def __init__(self):
+    def __init__(self, request_q_depth=1):
         self.responses = list()
+        self.returned_response_q = Queue(request_q_depth)
 
     def clear_responses(self):
         self.responses = list()
@@ -85,12 +87,15 @@ class ResponseMocker(object):
         return response
 
     def _act(self, url, verb):
-        self.last_url = url
-        self.last_action = verb
         # The deepcopy here is necessary to prevent alteration of the stored response
         match = deepcopy(self._find_match(url=url, request_verb=verb))
         match['method'] = verb
         response = MockedResponse(**match)
+        try:
+            self.returned_response_q.put(response, block=False)
+        except Full:
+            self.returned_response_q.get()
+            self.returned_response_q.put(response)
         return response
 
     def _add_response(self, **kwargs):
