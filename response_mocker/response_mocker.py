@@ -8,7 +8,7 @@ class MockedResponse(object):
     """
     This is the response that is returned from the ResponseMocker.
     """
-    def __init__(self, **kwargs):
+    def __init__(self, req_args, **kwargs):
         try:
             self.content = kwargs['content']
         except KeyError:
@@ -17,7 +17,7 @@ class MockedResponse(object):
             self.decoded_json = kwargs['decoded_json']
         except KeyError:
             self.decoded_json = None
-        self.request = MockedRequest(kwargs['method'], kwargs['url'])
+        self.request = MockedRequest(kwargs['method'], kwargs['url'], req_args)
         self.status_code = kwargs['status_code']
         self.url = kwargs['url']
 
@@ -37,9 +37,10 @@ class MockedRequest(object):
     """
     This is the request object that is part of the mocked response
     """
-    def __init__(self, method, url):
+    def __init__(self, method, url, req_args):
         self.method = method
         self.url = url
+        self.args = req_args
 
 
 class ResponseMocker(object):
@@ -83,14 +84,16 @@ class ResponseMocker(object):
         :param kwargs: This is unused but is here to match the method signature to the requests library
         :return: the result
         """
-        response = self._act(url, 'post')
+        response = self._act(url, 'post', kwargs)
         return response
 
-    def _act(self, url, verb):
+    def _act(self, url, verb, req_args=None):
+        if req_args is None:
+            req_args = dict()
         # The deepcopy here is necessary to prevent alteration of the stored response
         match = deepcopy(self._find_match(url=url, request_verb=verb))
         match['method'] = verb
-        response = MockedResponse(**match)
+        response = MockedResponse(req_args, **match)
         try:
             self.returned_response_q.put(response, block=False)
         except Full:

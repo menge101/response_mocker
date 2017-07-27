@@ -42,3 +42,12 @@ class RequestTests(unittest.TestCase):
         bond.spy(get_json=response.json())
         bond.spy(get_url=response.url)
         bond.spy(get_status=response.status_code)
+
+    def test_request_args(self):
+        self.mocker.register_response(url='https://oranges.org/squeeze_orange', status_code=201, request_verbs=['post'],
+                                      decoded_json='Success.')
+        headers = {'orange_type': 'California'}
+        payload = {'squeeze_level': 5}
+        response = self.mocker.post('https://oranges.org/squeeze_orange', headers=headers, payload=payload)
+        self.assertDictEqual(headers, response.request.args['headers'])
+        self.assertDictEqual(payload, response.request.args['payload'])
