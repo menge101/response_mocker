@@ -93,3 +93,15 @@ class RegistrationTests(unittest.TestCase):
         self.mocker.register_response(url='hi.bill', status_code='999', request_verbs=['bang'])
         self.mocker.clear_responses()
         bond.spy(cleared=self.mocker.responses)
+
+    def test_register_with_headers(self):
+        headers = {'Content-Type': 'application/json'}
+        url = 'https://giant.balloon.com/rides'
+        self.mocker.register_response(url=url, status_code='999', request_verbs=['get'], headers=headers)
+        self.assertDictEqual(self.mocker.get(url).headers, headers)
+
+    def test_registered_response_always_has_headers(self):
+        url = 'https://giant.balloon.com/rides'
+        self.mocker.register_response(url=url, status_code='999', request_verbs=['get'])
+        response = self.mocker.get(url)
+        self.assertIsNone(response.headers)

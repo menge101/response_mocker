@@ -9,14 +9,9 @@ class MockedResponse(object):
     This is the response that is returned from the ResponseMocker.
     """
     def __init__(self, req_args, **kwargs):
-        try:
-            self.content = kwargs['content']
-        except KeyError:
-            self.content = None
-        try:
-            self.decoded_json = kwargs['decoded_json']
-        except KeyError:
-            self.decoded_json = None
+        self.content = kwargs.get('content', None)
+        self.decoded_json = kwargs.get('decoded_json', None)
+        self.headers = kwargs.get('headers', None)
         self.request = MockedRequest(kwargs['method'], kwargs['url'], req_args)
         self.status_code = kwargs['status_code']
         self.url = kwargs['url']

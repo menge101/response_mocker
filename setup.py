@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='response_mocker',
-    version='1.0.6',
+    version='1.0.7',
     description='A simple mocking library for Requests',
     url='https://github.com/menge101/response_mocker',
     author='Nathan Menge',
