@@ -104,4 +104,4 @@ class RegistrationTests(unittest.TestCase):
         url = 'https://giant.balloon.com/rides'
         self.mocker.register_response(url=url, status_code='999', request_verbs=['get'])
         response = self.mocker.get(url)
-        self.assertIsNone(response.headers)
+        self.assertDictEqual(response.headers, dict())

@@ -11,7 +11,7 @@ class MockedResponse(object):
     def __init__(self, req_args, **kwargs):
         self.content = kwargs.get('content', None)
         self.decoded_json = kwargs.get('decoded_json', None)
-        self.headers = kwargs.get('headers', None)
+        self.headers = kwargs.get('headers', dict())
         self.request = MockedRequest(kwargs['method'], kwargs['url'], req_args)
         self.status_code = kwargs['status_code']
         self.url = kwargs['url']
