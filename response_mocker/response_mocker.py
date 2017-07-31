@@ -87,6 +87,18 @@ class ResponseMocker(object):
         response = self._act(url, 'post', kwargs)
         return response
 
+    def request(self, method, uri, **kwargs):
+        """
+        This method mocks the request method of the Requests library
+        :param method: The http method to use
+        :param uri: the url to `method` to
+        :param kwargs: Random stuff can be here, it is only here to match the method signature of the requests library
+        :return: the pre-set result, if no result has been set for this combination of http method and url,
+         an excpetion will be thrown
+        """
+        response = self._act(uri, method, kwargs)
+        return response
+
     def _act(self, url, verb, req_args=None):
         if req_args is None:
             req_args = dict()
